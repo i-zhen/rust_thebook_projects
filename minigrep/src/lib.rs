@@ -3,7 +3,11 @@ use std::fs;
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     let contents = fs::read_to_string(config.filename)?;
-    println!("text: {}", contents);
+
+    for line in search(&config.query, &contents) {
+        println!("{}", line);
+    }
+
     Ok(())
 }
 
@@ -35,12 +39,20 @@ Rust:motherfucker
 safe, apple, pear";
 
         assert_eq!(
-            vec!["safe, fase, productive."],
+            vec!["Rust:motherfucker"],
             search(query, contents)
         );
     }
 }
 
-pub fn search<'a>(query: &str) -> &str {
-    "a"
+pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+    let mut result = Vec::new();
+
+    for line in contents.lines() {
+        if line.contains(query) {
+            result.push(line);
+        }
+    }
+
+    result
 }
