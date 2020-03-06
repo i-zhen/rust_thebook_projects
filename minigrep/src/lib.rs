@@ -46,13 +46,7 @@ safe, apple, pear";
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut result = Vec::new();
-
-    for line in contents.lines() {
-        if line.contains(query) {
-            result.push(line);
-        }
-    }
-
-    result
+    contents.lines()
+        .filter(|x| x.contains(query))
+        .collect()
 }
